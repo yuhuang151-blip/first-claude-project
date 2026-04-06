@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import { schemas } from './schemas.js'
 
 const app = express()
 const PORT = 3001
@@ -8,12 +9,15 @@ app.use(cors())
 app.use(express.json())
 
 const photos = [
-  { id: 1, src: 'https://picsum.photos/seed/a1/400/300', caption: 'Morning light' },
-  { id: 2, src: 'https://picsum.photos/seed/b2/400/300', caption: 'City walk' },
-  { id: 3, src: 'https://picsum.photos/seed/c3/400/300', caption: 'Quiet corner' },
-  { id: 4, src: 'https://picsum.photos/seed/d4/400/300', caption: 'Weekend escape' },
-  { id: 5, src: 'https://picsum.photos/seed/e5/400/300', caption: 'Sunset view' },
-  { id: 6, src: 'https://picsum.photos/seed/f6/400/300', caption: 'Coffee time' },
+  { id: 1, src: 'https://picsum.photos/seed/a1/600/600', caption: 'Morning light', span: 'large' },
+  { id: 2, src: 'https://picsum.photos/seed/b2/300/400', caption: 'City walk', span: 'tall' },
+  { id: 3, src: 'https://picsum.photos/seed/c3/600/300', caption: 'Quiet corner', span: 'wide' },
+  { id: 4, src: 'https://picsum.photos/seed/d4/300/300', caption: 'Weekend escape', span: 'normal' },
+  { id: 5, src: 'https://picsum.photos/seed/e5/300/300', caption: 'Sunset view', span: 'normal' },
+  { id: 6, src: 'https://picsum.photos/seed/f6/600/300', caption: 'Coffee time', span: 'wide' },
+  { id: 7, src: 'https://picsum.photos/seed/g7/300/300', caption: 'Rainy day', span: 'normal' },
+  { id: 8, src: 'https://picsum.photos/seed/h8/600/600', caption: 'Golden hour', span: 'large' },
+  { id: 9, src: 'https://picsum.photos/seed/i9/300/300', caption: 'Street art', span: 'normal' },
 ]
 
 const posts = [
@@ -116,6 +120,49 @@ app.get('/api/photos', (req, res) => {
   res.json(photos)
 })
 
+const products = [
+  {
+    id: 1,
+    title: 'Wireless Noise-Cancelling Headphones',
+    image: 'https://picsum.photos/seed/prod1/400/400',
+    price: 79.99,
+    originalPrice: 149.99,
+    tags: ['Free Delivery', 'Flash Sale'],
+    endTag: 'Only 3 left',
+  },
+  {
+    id: 2,
+    title: 'Minimalist Leather Backpack',
+    image: 'https://picsum.photos/seed/prod2/400/400',
+    price: 45.00,
+    originalPrice: 89.00,
+    tags: ['Free Delivery', 'Buy 1 Get 1'],
+    endTag: 'Best Seller',
+  },
+  {
+    id: 3,
+    title: 'Smart Fitness Tracker Band',
+    image: 'https://picsum.photos/seed/prod3/400/400',
+    price: 29.99,
+    originalPrice: 59.99,
+    tags: ['Free Delivery', '50% OFF'],
+    endTag: 'New Arrival',
+  },
+]
+
+app.get('/api/products', (req, res) => {
+  res.json(products)
+})
+
+app.get('/api/schemas', (req, res) => {
+  res.json(schemas.map(({ id, label }) => ({ id, label })))
+})
+
+app.get('/api/schemas/:id', (req, res) => {
+  const schema = schemas.find(s => s.id === req.params.id)
+  if (!schema) return res.status(404).json({ error: 'Schema not found' })
+  res.json(schema)
+})
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`)

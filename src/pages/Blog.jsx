@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Carousel from '../components/Carousel'
+import Gallery from '../components/Gallery'
 
 const API_BASE = '/api'
 
@@ -14,7 +14,7 @@ export default function Blog({ onPostClick }) {
 
   return (
     <>
-      <Carousel photos={photos} />
+      <Gallery photos={photos} />
 
       <section className="intro">
         <p>Developer & writer. I share thoughts on code, design, and simplicity.</p>
